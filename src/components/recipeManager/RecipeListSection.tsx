@@ -24,7 +24,7 @@ const RecipeListSection: React.FC<RecipeListSectionProps> = ({
   onDelete,
   onToggleFavorite,
 }) => (
-  <div className="md:col-span-2">
+  <div className="sm:col-span-2">
     <div className="flex items-center gap-5 mb-4">
       <SearchBar onSearch={onSearchChange} />
       <FavoriteToggleButton

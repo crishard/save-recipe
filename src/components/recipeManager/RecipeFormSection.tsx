@@ -11,7 +11,7 @@ const RecipeFormSection: React.FC<RecipeFormSectionProps> = ({
   editingRecipe,
   onSubmit,
 }) => (
-  <div className="md:col-span-1">
+  <div className="sm:col-span-1">
     <h2 className="text-xl font-semibold mb-4">
       {editingRecipe ? "Editar Receita" : "Adicionar Nova Receita"}
     </h2>

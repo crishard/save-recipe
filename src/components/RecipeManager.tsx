@@ -46,9 +46,9 @@ const RecipeManager: React.FC = () => {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="sm:px-12 mx-0 px-4 py-8">
       <Header />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <RecipeFormSection
           editingRecipe={editingRecipe}
           onSubmit={editingRecipe ? handleUpdateRecipe : handleAddRecipe}
