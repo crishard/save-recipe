@@ -1,50 +1,146 @@
-# React + TypeScript + Vite
+# Recipe Manager App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web moderna para gerenciamento de receitas culinárias, construída com React, TypeScript e Tailwind CSS.
 
-Currently, two official plugins are available:
+## 📋 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Cadastro e edição de receitas
+- Lista de ingredientes dinâmica
+- Sistema de favoritos
+- Pesquisa por nome ou ingredientes
+- Visualização detalhada de receitas
+- Interface responsiva
+- Validação de formulários
 
-## Expanding the ESLint configuration
+## 🚀 Tecnologias Utilizadas
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **React**: Biblioteca para construção da interface
+- **TypeScript**: Superset JavaScript para tipagem estática
+- **Tailwind CSS**: Framework CSS utilitário
+- **Shadcn/ui**: Componentes de UI reutilizáveis
+- **React Hook Form**: Gerenciamento de formulários
+- **Yup**: Validação de esquemas
+- **Lucide React**: Ícones
 
-- Configure the top-level `parserOptions` property like this:
+## 💻 Pré-requisitos
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
+- Node.js 18.0 ou superior
+- npm ou yarn
+
+## 🔧 Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/crishard/save-recipe.git
+cd save-recipe
+```
+
+2.Instale as dependências:
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+3.Inicie o servidor de desenvolvimento
+
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+## 🔨 Principais Componentes
+
+### RecipeManager
+
+Componente principal que coordena toda a aplicação. Gerencia o estado global das receitas e coordena as interações entre os componentes.
+
+### RecipeForm
+
+Formulário para criação e edição de receitas. Utiliza React Hook Form para gerenciamento de estado e Yup para validação.
+
+### RecipeList
+
+Lista todas as receitas cadastradas com opções de filtro e pesquisa. Permite favoritar, editar e excluir receitas.
+
+### RecipeCard
+
+Componente de apresentação para cada receita individual, exibindo informações básicas e ações disponíveis.
+
+## 📝 Tipos
+
+### Recipe
+
+```typescript
+interface Recipe {
+    id: string
+    name: string
+    ingredients: string[]
+    instructions: string
+    favorite: boolean
+}
+```
+
+## 🔍 Hooks Personalizados
+
+### useRecipes
+
+Gerencia todas as operações CRUD relacionadas às receitas.
+
+### useRecipeForm
+
+Encapsula a lógica do formulário de receitas, incluindo validação e gerenciamento de estado.
+
+### useFilteredRecipes
+
+Gerencia a lógica de filtragem e pesquisa de receitas.
+
+## ⚙️ Configuração
+
+### Validação de Formulários
+
+O schema de validação está definido em `lib/schema.ts` usando Yup:
+
+```typescript
+const schema = yup.object({
+    name: yup.string().required('Nome é obrigatório'),
+    ingredients: yup.array()
+        .of(yup.string().required('Ingrediente é obrigatório'))
+        .required('Adicione pelo menos um ingrediente'),
+    instructions: yup.string().required('Instruções são obrigatórias'),
 })
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🎨 Estilização
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+A aplicação utiliza Tailwind CSS para estilização, combinado com componentes do Shadcn/ui para uma interface moderna e consistente.
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## 🤝 Contribuindo
+
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+
+## ✨ Próximos Passos
+
+- [ ] Implementar sistema de categorias
+- [ ] Adicionar suporte a imagens
+- [ ] Criar sistema de compartilhamento
+- [ ] Adicionar tempo de preparo
+- [ ] Implementar sistema de avaliações
+- [ ] Adicionar modo escuro
+- [ ] Criar sistema de unidades de medida
+- [ ] Implementar exportação de receitas
+
+## 📞 Suporte
+
+Para reportar bugs ou sugerir novas features, por favor abra uma [issue](https://github.com/crishard/save-recipe/issues).
