@@ -1,15 +1,8 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { schema } from '../lib/schema';
-
-interface Recipe {
-  id: string;
-  name: string;
-  ingredients: string[];
-  instructions: string;
-  favorite: boolean;
-}
+import type { Recipe } from "@/types/Recipe"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { useEffect } from "react"
+import { useFieldArray, useForm, type FieldArrayPath } from "react-hook-form"
+import { schema } from "../lib/schema"
 
 const defaultValues: Recipe = {
   id: "",
@@ -17,35 +10,37 @@ const defaultValues: Recipe = {
   ingredients: [""],
   instructions: "",
   favorite: false,
-};
+}
 
-export const useRecipeForm = (
-  initialData?: Recipe,
-  onSubmit?: (data: Recipe) => void
-) => {
+export const useRecipeForm = (initialData?: Recipe, onSubmit?: (data: Recipe) => void) => {
   const methods = useForm<Recipe>({
     resolver: yupResolver(schema),
     defaultValues: initialData || defaultValues,
-  });
+  })
 
-  const { register, control, handleSubmit, reset, formState: { errors } } = methods;
-
-  const { fields, append, remove } = useFieldArray<Recipe, never, "id">({
+  const {
+    register,
     control,
-    name: "ingredients" as never,
-    keyName: "id",
-  });
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = methods
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "ingredients" as FieldArrayPath<Recipe>,
+  })
 
   const handleFormSubmit = (data: Recipe) => {
-    onSubmit?.(data);
-    reset(defaultValues);
-  };
+    onSubmit?.(data)
+    reset(defaultValues)
+  }
 
   useEffect(() => {
     if (initialData) {
-      reset(initialData);
+      reset(initialData)
     }
-  }, [initialData, reset]);
+  }, [initialData, reset])
 
   return {
     register,
@@ -54,5 +49,6 @@ export const useRecipeForm = (
     append,
     remove,
     handleSubmit: handleSubmit(handleFormSubmit),
-  };
-};
+  }
+}
+

@@ -10,7 +10,5 @@
       "@/*": ["./src/*"]
     }
   },
-  "noImplicitReturns": false,
 
-  "strictNullChecks":false,
 }
