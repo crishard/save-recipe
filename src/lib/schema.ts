@@ -1,13 +1,12 @@
 import * as yup from 'yup';
-import type { Recipe } from '../types/Recipe';
 
-export const schema: yup.ObjectSchema<Recipe> = yup.object().shape({
-  id: yup.string().required(),
-  name: yup.string().required('Nome é obrigatório'),
+export const schema = yup.object().shape({
+  id: yup.string(),
+  name: yup.string().required("Nome da receita é obrigatório"),
   ingredients: yup
     .array()
-    .of(yup.string().required('Ingrediente é obrigatório'))
-    .required('Adicione pelo menos um ingrediente'),
-  instructions: yup.string().required('Instruções são obrigatórias'),
-  favorite: yup.boolean().required(),
-});
+    .of(yup.string().required("Ingrediente é obrigatório"))
+    .min(1, "Adicione pelo menos um ingrediente"),
+  instructions: yup.string().required("Modo de preparo é obrigatório"),
+  favorite: yup.boolean(),
+})

@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
-import React from 'react'
-import type { UseFormRegister } from 'react-hook-form'
-import type { Recipe } from '../../types/Recipe'
-import FormField from './FormField'
-import IngredientField from './IngredientField'
+import React from "react"
+import type { UseFormRegister } from "react-hook-form"
+import type { Recipe } from "../../types/Recipe"
+import FormField from "./FormField"
+import IngredientField from "./IngredientField"
 
 interface IngredientsSectionProps {
     fields: { id: string }[]
@@ -41,6 +41,6 @@ const IngredientsSection: React.FC<IngredientsSectionProps> = ({
             Adicionar Ingrediente
         </Button>
     </FormField>
-)
+);
 
-export default IngredientsSection
+export default IngredientsSection;

@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Minus } from "lucide-react"
-import React from 'react'
-import type { UseFormRegister } from 'react-hook-form'
-import type { Recipe } from '../../types/Recipe'
+import React from "react"
+import type { UseFormRegister } from "react-hook-form"
+import type { Recipe } from "../../types/Recipe"
 
 interface IngredientFieldProps {
     index: number
@@ -17,10 +16,10 @@ const IngredientField: React.FC<IngredientFieldProps> = ({
     onRemove
 }) => (
     <div className="flex items-center mt-2">
-        <Input 
+        <input 
             type="text" 
             {...register(`ingredients.${index}`)} 
-            className="flex-grow" 
+            className="flex-grow border rounded-md p-2" 
         />
         <Button 
             type="button" 
@@ -32,6 +31,6 @@ const IngredientField: React.FC<IngredientFieldProps> = ({
             <Minus className="h-4 w-4" />
         </Button>
     </div>
-)
+);
 
-export default IngredientField
+export default IngredientField;

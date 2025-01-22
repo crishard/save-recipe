@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 interface FormFieldProps {
     label: string
@@ -14,8 +14,8 @@ const FormField: React.FC<FormFieldProps> = ({ label, error, children }) => (
         <div className="mt-1">
             {children}
         </div>
-        {error && <span className="text-red-500">{error}</span>}
+        {error && <span className="text-red-500 text-sm">{error}</span>}
     </div>
-)
+);
 
-export default FormField
+export default FormField;

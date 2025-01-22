@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import React from 'react'
-import { useRecipeForm } from '../hooks/useRecipeForm'
-import type { Recipe } from '../types/Recipe'
-import FormField from './form/FormField'
-import IngredientsSection from './form/IngredientsSection'
+import { schema } from "@/lib/schema"
+import { yupResolver } from "@hookform/resolvers/yup"
+import React, { useEffect } from "react"
+import { FieldArrayPath, useFieldArray, useForm } from "react-hook-form"
+import type { Recipe } from "../types/Recipe"
+import FormField from "./form/FormField"
+import IngredientsSection from "./form/IngredientsSection"
 
 interface RecipeFormProps {
     onSubmit: (data: Recipe) => void
@@ -15,34 +16,72 @@ interface RecipeFormProps {
 const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, initialData }) => {
     const {
         register,
-        fields,
-        errors,
-        append,
-        remove,
+        control,
         handleSubmit,
-    } = useRecipeForm(initialData, onSubmit)
+        reset,
+        formState: { errors },
+    } = useForm<Recipe>({
+        resolver: yupResolver(schema) as any,
+        defaultValues: initialData || {
+            id: "",
+            name: "",
+            ingredients: [""],
+            instructions: "",
+            favorite: false,
+        },
+    });
+
+    const { fields, append, remove } = useFieldArray({
+        control,
+        name: "ingredients" as FieldArrayPath<Recipe>,
+    });
+
+    useEffect(() => {
+        reset(
+            initialData || {
+                id: "",
+                name: "",
+                ingredients: [""],
+                instructions: "",
+                favorite: false,
+            }
+        );
+    }, [initialData, reset]);
+
+    const onSubmitForm = (data: Recipe) => {
+        onSubmit(data);
+        reset({
+            id: "",
+            name: "",
+            ingredients: [""],
+            instructions: "",
+            favorite: false,
+        });
+    };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-4">
             <FormField label="Nome da Receita" error={errors.name?.message}>
-                <Input 
+                <input 
                     type="text" 
                     {...register("name")} 
+                    className="mt-1 block w-full border rounded-md p-2" 
                 />
             </FormField>
 
-            <IngredientsSection
-                fields={fields}
-                register={register}
-                error={errors.ingredients?.message}
-                onAdd={() => append("")}
-                onRemove={remove}
+            <IngredientsSection 
+                fields={fields} 
+                register={register} 
+                error={errors.ingredients?.message} 
+                onAdd={() => append("")} 
+                onRemove={remove} 
             />
 
             <FormField label="Modo de Preparo" error={errors.instructions?.message}>
-                <Textarea
-                    {...register("instructions")}
-                    rows={5}
+                <Textarea 
+                    rows={5} 
+                    {...register("instructions")} 
+                    className="mt-1 block w-full border rounded-md p-2" 
                 />
             </FormField>
 
@@ -50,7 +89,7 @@ const RecipeForm: React.FC<RecipeFormProps> = ({ onSubmit, initialData }) => {
                 {initialData ? "Atualizar Receita" : "Adicionar Receita"}
             </Button>
         </form>
-    )
-}
+    );
+};
 
-export default RecipeForm
+export default RecipeForm;

@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Star } from "lucide-react"
 import type React from "react"
+import { useEffect, useState } from "react"
 import type { Recipe } from "../types/Recipe"
 
 interface RecipeDetailsPopupProps {
@@ -13,6 +14,21 @@ interface RecipeDetailsPopupProps {
 }
 
 const RecipeDetailsPopup: React.FC<RecipeDetailsPopupProps> = ({ recipe, isOpen, onClose, onToggleFavorite }) => {
+  const [localFavorite, setLocalFavorite] = useState(recipe?.favorite || false)
+
+  useEffect(() => {
+    if (recipe) {
+      setLocalFavorite(recipe.favorite)
+    }
+  }, [recipe])
+
+  const handleToggleFavorite = () => {
+    if (recipe) {
+      onToggleFavorite(recipe.id)
+      setLocalFavorite((prev) => !prev) 
+    }
+  }
+
   if (!recipe) return null
 
   return (
@@ -21,8 +37,13 @@ const RecipeDetailsPopup: React.FC<RecipeDetailsPopupProps> = ({ recipe, isOpen,
         <DialogHeader>
           <DialogTitle className="flex justify-between items-center">
             {recipe.name}
-            <Button variant="outline" className="m-4" size="sm" onClick={() => onToggleFavorite(recipe.id)}>
-              <Star className={` ${recipe.favorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`} />
+            <Button
+              variant="outline"
+              className="m-4"
+              size="sm"
+              onClick={handleToggleFavorite}
+            >
+              <Star className={`${localFavorite ? "text-yellow-400 fill-yellow-400" : "text-gray-400"}`} />
             </Button>
           </DialogTitle>
           <DialogDescription>Detalhes da receita</DialogDescription>
@@ -49,4 +70,3 @@ const RecipeDetailsPopup: React.FC<RecipeDetailsPopupProps> = ({ recipe, isOpen,
 }
 
 export default RecipeDetailsPopup
-
