@@ -20,7 +20,7 @@ const RecipeCard: React.FC<RecipeCardProps> = ({
     onToggleFavorite
 }) => (
     <Card
-        className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.33%-0.67rem)] cursor-pointer"
+        className="w-full sm:max-w-[320px]  cursor-pointer"
         onClick={onClick}
     >
         <CardHeader>

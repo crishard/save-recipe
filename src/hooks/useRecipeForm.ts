@@ -1,49 +1,58 @@
-import { schema } from '@/lib/schema'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import type { Recipe } from '../types/Recipe'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { schema } from '../lib/schema';
 
-const defaultValues = {
-    id: "",
-    name: "",
-    ingredients: [""],
-    instructions: "",
-    favorite: false,
+interface Recipe {
+  id: string;
+  name: string;
+  ingredients: string[];
+  instructions: string;
+  favorite: boolean;
 }
 
-export const useRecipeForm = (initialData?: Recipe, onSubmit?: (data: Recipe) => void) => {
-    const {
-        register,
-        control,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<Recipe>({
-        resolver: yupResolver(schema),
-        defaultValues: initialData || defaultValues,
-    })
+const defaultValues: Recipe = {
+  id: "",
+  name: "",
+  ingredients: [""],
+  instructions: "",
+  favorite: false,
+};
 
-    const { fields, append, remove } = useFieldArray({
-        control,
-        name: "ingredients",
-    })
+export const useRecipeForm = (
+  initialData?: Recipe,
+  onSubmit?: (data: Recipe) => void
+) => {
+  const methods = useForm<Recipe>({
+    resolver: yupResolver(schema),
+    defaultValues: initialData || defaultValues,
+  });
 
-    const handleFormSubmit = (data: Recipe) => {
-        onSubmit?.(data)
-        reset(defaultValues)
+  const { register, control, handleSubmit, reset, formState: { errors } } = methods;
+
+  const { fields, append, remove } = useFieldArray<Recipe, never, "id">({
+    control,
+    name: "ingredients" as never,
+    keyName: "id",
+  });
+
+  const handleFormSubmit = (data: Recipe) => {
+    onSubmit?.(data);
+    reset(defaultValues);
+  };
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
     }
+  }, [initialData, reset]);
 
-    useEffect(() => {
-        reset(initialData)
-    }, [initialData, reset])
-
-    return {
-        register,
-        fields,
-        errors,
-        append,
-        remove,
-        handleSubmit: handleSubmit(handleFormSubmit),
-    }
-}
+  return {
+    register,
+    fields,
+    errors,
+    append,
+    remove,
+    handleSubmit: handleSubmit(handleFormSubmit),
+  };
+};
